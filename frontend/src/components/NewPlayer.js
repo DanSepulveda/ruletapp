@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import axios from 'axios'
 import PlayerImage from './PlayerImage'
+import { message } from './Message'
 
-const NewPlayer = ({ setModal }) => {
+const NewPlayer = ({ setModal, players, setPlayers }) => {
     const [newPlayer, setNewPlayer] = useState({})
 
     const pictures = ["avatar1", "avatar2", "avatar3", "avatar4", "avatar5", "avatar6"]
@@ -20,8 +21,20 @@ const NewPlayer = ({ setModal }) => {
     }
 
     const addUser = async () => {
-        let response = await axios.post('http://localhost:4000/api/newuser', newPlayer)
-        console.log(response.data)
+        try {
+            if (!newPlayer.username) throw new Error('Ingrese su nombre de usuario.')
+            if (!newPlayer.image) throw new Error('Seleccione una imagen.')
+            let response = await axios.post('http://localhost:4000/api/users', newPlayer)
+            if (response.data.success) {
+                message('success', 'Jugador creado exitosamente')
+                setPlayers([...players, response.data.response])
+                setModal(false)
+            } else {
+                message('error', response.data.error)
+            }
+        } catch (error) {
+            message('error', error.message)
+        }
     }
 
     return (

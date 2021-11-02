@@ -1,14 +1,53 @@
-const PlayerCard = ({ player }) => {
+import Swal from 'sweetalert2'
+import axios from 'axios'
+
+const PlayerCard = ({ player, deletePlayer }) => {
     const formatter = new Intl.NumberFormat('es-CL', {
         style: 'currency',
         currency: 'CLP',
     })
 
+    const deleteUser = async () => {
+        try {
+            let response = await axios.delete(`http://localhost:4000/api/user/${player._id}`)
+            if (response.data.success) {
+                deletePlayer(player._id)
+            }
+        } catch (error) {
+
+        }
+    }
+
+    const confirmation = () => {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "Esta acción no se puede revertir",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Borrar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteUser()
+                Swal.fire(
+                    'Eliminado',
+                    'Se ha eliminado al jugador.',
+                    'success'
+                )
+            }
+        })
+    }
+
     return (
-        <div>
-            <div></div>
-            <h2>Nombre: {player.name}</h2>
-            <h3>Dinero: {formatter.format(player.cash)}</h3>
+        <div className="card">
+            <div className="picture" style={{ backgroundImage: `url('${player.image}')` }}></div>
+            <h3>Nombre</h3>
+            <h4>{player.username}</h4>
+            <h3>Dinero</h3>
+            <h4>{formatter.format(player.cash)}</h4>
+            <img className="closeIcon" src="/assets/close.png" alt="Close Icon" onClick={confirmation} />
         </div>
     )
 }

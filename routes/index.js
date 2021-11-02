@@ -5,9 +5,12 @@ const playerControllers = require('../controllers/playerController')
 const router = express.Router()
 
 //PLAYERS
-router.route('/newuser')
+router.route('/users')
     .post(playerControllers.addNewPlayer)
+    .get(playerControllers.getUsers)
 
+router.route('/user/:id')
+    .delete(playerControllers.deleteUser)
 
 //GAMES
 
