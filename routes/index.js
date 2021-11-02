@@ -1,9 +1,12 @@
 const express = require('express')
+const playerControllers = require('../controllers/playerController')
 
 
 const router = express.Router()
 
-//USERS
+//PLAYERS
+router.route('/newuser')
+    .post(playerControllers.addNewPlayer)
 
 
 //GAMES

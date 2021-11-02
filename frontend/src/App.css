@@ -1,9 +1,15 @@
+html * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 main.mainContainer {
   display: flex;
   flex-direction: column;
-  /* justify-content: space-around; */
   align-items: center;
   height: 100vh;
+  justify-content: center;
 }
 
 img.homeImage {
@@ -20,9 +26,9 @@ img.homeImage {
   }
 }
 
-a.startButton {
+.startButton {
   color: #973e3e;
-  border: 1px solid #973e3e;
+  border: 2px solid #973e3e;
   border-radius: 12px;
   font-size: 16px;
   font-weight: 500;
@@ -32,8 +38,107 @@ a.startButton {
   transition: all 300ms;
 }
 
-a.startButton:hover {
+.startButton:hover {
   background-color: #973e3e;
   border: 0;
   color: #ffffff;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+/* PLAYERS PAGE */
+
+section.playersSection {
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card {
+  min-height: 30vh;
+  width: 20vw;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.plusImage {
+  width: 60%;
+}
+
+/* NEW PLAYER */
+div.newPlayer {
+  z-index: 3;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+div.modal {
+  width: 60vw;
+  height: 80vh;
+  background-color: whitesmoke;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1em;
+  border-radius: 12px;
+}
+
+.closeIcon {
+  width: 50px;
+  align-self: flex-end;
+  cursor: pointer;
+  transition: all 300ms;
+  border-radius: 100%;
+}
+
+.closeIcon:hover {
+  box-shadow: 1px 1px 5px black;
+}
+
+.picturesContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.picture {
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  cursor: pointer;
+}
+
+.selected {
+  border: 5px solid black;
+}
+
+.modal label,
+.modal h2 {
+  font-size: 1.5em;
+  font-weight: 600;
+  margin-top: 2vh;
+  margin-bottom: 1vh;
+}
+
+.modal > div:last-child {
+  margin-top: 3vh;
+}
+
+.modal input {
+  padding: 0.5em 1em;
+  font-size: 15px;
 }
