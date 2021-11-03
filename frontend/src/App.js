@@ -1,5 +1,4 @@
 import "./App.css";
-import axios from 'axios'
 import Home from './pages/Home'
 import Players from './pages/Players'
 import Temp from "./components/Temp";
@@ -7,27 +6,26 @@ import NotFound from "./pages/NotFound";
 import { message } from "./components/Message";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import gamesActions from "./redux/actions/gamesActions";
+import playersActions from "./redux/actions/playersActions";
 
-const App = () => {
+const App = (props) => {
   const [loader, setLoader] = useState(true)
-  const [registeredPlayers, setRegisteredPlayers] = useState([])
 
-  const getUsers = async () => {
+  const getData = async () => {
     try {
-      let response = await axios.get('http://localhost:4000/api/users')
-      if (response.data.success) {
-        setRegisteredPlayers(response.data.response)
-      } else {
-        message('error', response.data.error)
-      }
+      await props.getGames()
+      await props.getPlayers()
+      setLoader(false)
     } catch (error) {
       message('error', error.message)
     }
-    setLoader(false)
   }
 
   useEffect(() => {
-    getUsers()
+    getData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (loader) {
@@ -41,7 +39,7 @@ const App = () => {
 
   return (
     <>
-      <Temp players={registeredPlayers} />
+      <Temp />
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={Home} />
@@ -54,4 +52,9 @@ const App = () => {
   );
 };
 
-export default App;
+const mapDispatchToProps = {
+  getGames: gamesActions.getGames,
+  getPlayers: playersActions.getPlayers
+}
+
+export default connect(null, mapDispatchToProps)(App);
