@@ -3,8 +3,10 @@ import axios from 'axios'
 import { MdDelete, MdModeEditOutline, MdCheckCircleOutline, MdCheckCircle } from 'react-icons/md';
 import { useState } from 'react'
 import { message } from './Message';
+import { connect } from 'react-redux';
+import playersActions from '../redux/actions/playersActions';
 
-const PlayerCard = ({ player, deletePlayer, handlePlayer }) => {
+const PlayerCard = ({ player, deletePlayer, editPlayer }) => {
     const [selected, setSelected] = useState(false)
 
     const formatter = new Intl.NumberFormat('es-CL', {
@@ -14,10 +16,7 @@ const PlayerCard = ({ player, deletePlayer, handlePlayer }) => {
 
     const deleteUser = async () => {
         try {
-            let response = await axios.delete(`http://localhost:4000/api/user/${player._id}`)
-            if (response.data.success) {
-                deletePlayer(player._id)
-            }
+            await deletePlayer(player._id)
         } catch (error) {
             message('error', error.message)
         }
@@ -45,19 +44,21 @@ const PlayerCard = ({ player, deletePlayer, handlePlayer }) => {
         })
     }
 
-    const selectHandler = (action) => {
-        setSelected(!selected)
-        handlePlayer(player, action)
-
+    const editUser = (action) => {
+        if (action === "remove") {
+            editPlayer(player._id, { active: false })
+        } else {
+            editPlayer(player._id, { active: true })
+        }
     }
 
-    const nameClass = selected ? "card selectedCard" : "card"
+    const nameClass = player.active ? "card selectedCard" : "card"
 
     return (
         <div className={nameClass}>
-            {selected
-                ? <MdCheckCircle className="selectedTrue" onClick={() => selectHandler('remove')} />
-                : <MdCheckCircleOutline className="selectedIcon" onClick={() => selectHandler('add')} />
+            {player.active
+                ? <MdCheckCircle className="selectedTrue" onClick={() => editUser('remove')} />
+                : <MdCheckCircleOutline className="selectedIcon" onClick={() => editUser('add')} />
             }
             <div className="picture" style={{ backgroundImage: `url('${player.image}')` }}></div>
             <h3>Nombre</h3>
@@ -72,4 +73,9 @@ const PlayerCard = ({ player, deletePlayer, handlePlayer }) => {
     )
 }
 
-export default PlayerCard
+const mapDispatchToProps = {
+    deletePlayer: playersActions.deletePlayer,
+    editPlayer: playersActions.editPlayer
+}
+
+export default connect(null, mapDispatchToProps)(PlayerCard)

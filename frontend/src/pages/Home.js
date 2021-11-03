@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-// import { Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 import ResultTable from "../components/ResultTable"
 import { message } from "../components/Message"
 import { connect } from "react-redux"
@@ -73,6 +73,8 @@ const Home = ({ games, newGameReq, players, createNewGame, getWeather, chosenPla
         }
     }
 
+    console.log(newGame)
+
     useEffect(() => {
         if (start) {
             // createGame()
@@ -82,12 +84,11 @@ const Home = ({ games, newGameReq, players, createNewGame, getWeather, chosenPla
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [newGameReq])
 
-
     return (
         <main className="mainContainer">
+            <Link to='/jugadores' className="startButton"><span>Ver jugadores</span></Link>
             <h2 className="results">Resultados</h2>
             {games.map(game => <ResultTable key={game._id} game={game} />)}
-            {/* <Link to='/jugadores' className="startButton"><span>Comenzar</span></Link> */}
         </main>
     )
 }

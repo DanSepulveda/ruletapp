@@ -12,6 +12,7 @@ router.route('/users')
 
 router.route('/user/:id')
     .delete(playerControllers.deleteUser)
+    .put(playerControllers.editPlayer)
 
 //GAMES
 router.route('/games')

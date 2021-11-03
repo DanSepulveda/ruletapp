@@ -33,6 +33,18 @@ const playerControllers = {
         } catch (error) {
             res.json({ success: false, error: error.message })
         }
+    },
+    editPlayer: async (req, res) => {
+        try {
+            let user = await Player.findOneAndUpdate(
+                { _id: req.params.id },
+                { ...req.body },
+                { new: true }
+            )
+            res.json({ success: true, response: user })
+        } catch (error) {
+            res.json({ success: false, error: error.message })
+        }
     }
 }
 

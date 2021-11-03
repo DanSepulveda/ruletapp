@@ -3,8 +3,8 @@ import ResultRow from "./ResultRow"
 const ResultTable = ({ game }) => {
     return (
         <div className="gameResultContainer">
-            <h2>Ganador: <span className={`${game.winnerColor.toLowerCase()}`}>{game.winnerColor}</span></h2>
-            <table>
+            <h2>Color Ruleta: <span className={`${game.winnerColor.toLowerCase()}`}>{game.winnerColor}</span></h2>
+            <table className="tableResult">
                 <thead>
                     <tr>
                         <th>Jugador</th>
@@ -16,7 +16,7 @@ const ResultTable = ({ game }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {game.players.map(player => <ResultRow key={player._id} user={player} />)}
+                    {game.players.map(player => <ResultRow key={player._id} user={player} color={game.winnerColor} />)}
                 </tbody>
             </table>
         </div>

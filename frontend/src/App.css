@@ -42,6 +42,10 @@ main.mainContainer {
   justify-content: center;
 }
 
+.mainContainer a {
+  margin-top: 3vh;
+}
+
 .startButton {
   color: #973e3e;
   border: 2px solid #973e3e;
@@ -72,7 +76,10 @@ h2.results {
   background-color: #ccc;
   padding: 1em;
   border-radius: 1em;
-  margin-bottom: 2vh;
+  margin-bottom: 5vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .gameResultContainer h2 {
@@ -89,6 +96,19 @@ h2.results {
 
 .negro {
   color: black;
+}
+
+.tableResult {
+  margin-top: 2vh;
+  width: 90%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.tableResult th {
+  background-color: #444;
+  color: white;
+  padding: 0.3em;
 }
 
 /* PLAYERS PAGE */
@@ -139,6 +159,7 @@ a.disabled {
 
 .selectedCard {
   border: 3px solid green;
+  background-color: rgba(0, 128, 0, 0.459);
 }
 
 .card h3 {
@@ -163,6 +184,16 @@ svg.plusIcon {
 
 .icons {
   display: flex;
+}
+
+.icons svg {
+  cursor: pointer;
+  transition: all 300ms;
+  margin: 0 3px;
+}
+
+.icons svg:hover {
+  box-shadow: 1px 1px 3px #444;
 }
 
 .editIcon {

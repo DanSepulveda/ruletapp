@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import axios from 'axios'
 import PlayerImage from './PlayerImage'
 import { message } from './Message'
+import { connect } from 'react-redux'
+import playersActions from '../redux/actions/playersActions'
 
-const NewPlayer = ({ setModal, registeredPlayers, setRegisteredPlayers }) => {
+const NewPlayer = ({ setModal, createPlayer }) => {
     const [newPlayer, setNewPlayer] = useState({})
 
     const pictures = ["avatar1", "avatar2", "avatar3", "avatar4", "avatar5", "avatar6"]
@@ -24,10 +25,9 @@ const NewPlayer = ({ setModal, registeredPlayers, setRegisteredPlayers }) => {
         try {
             if (!newPlayer.username) throw new Error('Ingrese su nombre de usuario.')
             if (!newPlayer.image) throw new Error('Seleccione una imagen.')
-            let response = await axios.post('http://localhost:4000/api/users', newPlayer)
+            let response = await createPlayer(newPlayer)
             if (response.data.success) {
                 message('success', 'Jugador creado exitosamente')
-                setRegisteredPlayers([...registeredPlayers, response.data.response])
                 setModal(false)
             } else {
                 message('error', response.data.error)
@@ -55,4 +55,8 @@ const NewPlayer = ({ setModal, registeredPlayers, setRegisteredPlayers }) => {
     )
 }
 
-export default NewPlayer
+const mapDispatchToProps = {
+    createPlayer: playersActions.createPlayer
+}
+
+export default connect(null, mapDispatchToProps)(NewPlayer)
