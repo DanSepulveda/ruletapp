@@ -4,16 +4,18 @@ html * {
   box-sizing: border-box;
 }
 
-main.mainContainer {
+.loader {
+  width: 100vw;
+  height: 100vh;
+  z-index: 5;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  height: 100vh;
   justify-content: center;
+  align-items: center;
 }
 
-img.homeImage {
-  height: 60vh;
+img.loaderImage {
+  height: 50vh;
   animation: girar 7s linear infinite;
 }
 
@@ -24,6 +26,20 @@ img.homeImage {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.temp {
+  padding: 1em;
+  text-align: center;
+  background-color: #eee;
+  color: #973e3e;
+}
+
+main.mainContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .startButton {
@@ -47,7 +63,6 @@ img.homeImage {
 }
 
 /* PLAYERS PAGE */
-
 section.playersSection {
   padding: 1em;
   display: flex;
@@ -67,6 +82,8 @@ section.playersSection {
 
 a.disabled {
   pointer-events: none;
+  border: 3px solid gray;
+  color: gray;
 }
 
 .playersContainer {
@@ -82,12 +99,17 @@ a.disabled {
 .card {
   width: 24%;
   margin-bottom: 1em;
-  border: 1px solid black;
+  border: 3px solid #444;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 1em 0.5em;
+  border-radius: 10px;
+}
+
+.selectedCard {
+  border: 3px solid green;
 }
 
 .card h3 {
@@ -99,11 +121,41 @@ a.disabled {
   margin-bottom: 1vh;
 }
 
-.plusImage {
-  width: 30%;
+.card svg {
+  font-size: 40px;
+}
+
+svg.plusIcon {
+  font-size: 4em;
   cursor: pointer;
   transition: all 300ms;
-  border-radius: 100%;
+  color: #444;
+}
+
+.icons {
+  display: flex;
+}
+
+.editIcon {
+  color: green;
+}
+
+.deleteIcon {
+  color: red;
+}
+
+.selectedIcon,
+.selectedTrue {
+  align-self: flex-end;
+  cursor: pointer;
+}
+
+.selectedIcon {
+  color: #444;
+}
+
+.selectedTrue {
+  color: green;
 }
 
 /* NEW PLAYER */
@@ -179,4 +231,11 @@ div.modal {
 .modal input {
   padding: 0.5em 1em;
   font-size: 15px;
+}
+
+/* NOT FOUND */
+div.notFound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

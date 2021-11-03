@@ -3,7 +3,7 @@ import axios from 'axios'
 import PlayerImage from './PlayerImage'
 import { message } from './Message'
 
-const NewPlayer = ({ setModal, players, setPlayers }) => {
+const NewPlayer = ({ setModal, registeredPlayers, setRegisteredPlayers }) => {
     const [newPlayer, setNewPlayer] = useState({})
 
     const pictures = ["avatar1", "avatar2", "avatar3", "avatar4", "avatar5", "avatar6"]
@@ -27,7 +27,7 @@ const NewPlayer = ({ setModal, players, setPlayers }) => {
             let response = await axios.post('http://localhost:4000/api/users', newPlayer)
             if (response.data.success) {
                 message('success', 'Jugador creado exitosamente')
-                setPlayers([...players, response.data.response])
+                setRegisteredPlayers([...registeredPlayers, response.data.response])
                 setModal(false)
             } else {
                 message('error', response.data.error)

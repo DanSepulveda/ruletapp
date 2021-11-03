@@ -20,7 +20,6 @@ const playerControllers = {
     getUsers: async (req, res) => {
         try {
             const players = await Player.find()
-            console.log(players)
             res.json({ success: true, response: players })
         } catch (error) {
             res.json({ success: false, error: error.message })

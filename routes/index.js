@@ -1,5 +1,6 @@
 const express = require('express')
-const playerControllers = require('../controllers/playerController')
+const playerControllers = require('../controllers/playerControllers')
+const gameControllers = require('../controllers/gameControllers')
 
 
 const router = express.Router()
@@ -13,6 +14,10 @@ router.route('/user/:id')
     .delete(playerControllers.deleteUser)
 
 //GAMES
+router.route('/games')
+    .post(gameControllers.addGame)
+    .get(gameControllers.getGames)
+
 
 
 module.exports = router
