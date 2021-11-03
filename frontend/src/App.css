@@ -62,6 +62,35 @@ main.mainContainer {
   border: 2px solid transparent;
 }
 
+h2.results {
+  margin: 2vh 0;
+}
+
+/* RESULTS */
+.gameResultContainer {
+  width: 90%;
+  background-color: #ccc;
+  padding: 1em;
+  border-radius: 1em;
+  margin-bottom: 2vh;
+}
+
+.gameResultContainer h2 {
+  color: gray;
+}
+
+.rojo {
+  color: red;
+}
+
+.verde {
+  color: green;
+}
+
+.negro {
+  color: black;
+}
+
 /* PLAYERS PAGE */
 section.playersSection {
   padding: 1em;

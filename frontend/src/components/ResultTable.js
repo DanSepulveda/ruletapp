@@ -1,6 +1,8 @@
-const ResultTable = () => {
+const ResultTable = ({ game }) => {
     return (
-        <div>hola</div>
+        <div className="gameResultContainer">
+            <h2>Ganador: <span className={`${game.winnerColor.toLowerCase()}`}>{game.winnerColor}</span></h2>
+        </div>
     )
 }
 

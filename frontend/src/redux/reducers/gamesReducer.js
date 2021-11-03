@@ -1,5 +1,5 @@
 const gamesReducer = (
-    state = { games: [], newGameReq: true },
+    state = { games: [], newGameReq: true, cleanGame: false },
     action
 ) => {
     switch (action.type) {
@@ -17,6 +17,7 @@ const gamesReducer = (
             return {
                 ...state,
                 games: [...state.games, action.payload],
+                cleanGame: !state.cleanGame
             };
         default:
             return state;

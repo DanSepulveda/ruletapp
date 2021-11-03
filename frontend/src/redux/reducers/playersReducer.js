@@ -1,5 +1,5 @@
 const playersReducer = (
-    state = { players: [] },
+    state = { players: [], chosenPlayers: [] },
     action
 ) => {
     switch (action.type) {
@@ -7,6 +7,7 @@ const playersReducer = (
             return {
                 ...state,
                 players: action.payload,
+                chosenPlayers: action.payload,
             };
         default:
             return state;

@@ -2,9 +2,7 @@ const Game = require('../models/Game')
 
 const gameControllers = {
     addGame: async (req, res) => {
-        console.log('hola')
         const { players, winnerColor } = req.body
-        console.log(req.body)
         const newGame = new Game({
             players,
             winnerColor
