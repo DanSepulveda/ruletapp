@@ -12,6 +12,11 @@ const playersActions = {
             dispatch({ type: "GET_PLAYERS", payload: response.data.response });
         };
     },
+    getOnePlayer: (userId) => {
+        return (dispatch) => {
+            dispatch({ type: "GET_PLAYER", payload: userId })
+        }
+    }
 }
 
 export default playersActions;
