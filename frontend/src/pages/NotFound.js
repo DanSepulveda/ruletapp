@@ -3,7 +3,8 @@ import { Link } from "react-router-dom"
 const NotFound = () => {
     return (
         <div className="notFound">
-            <h2>esta página no existe</h2>
+            <img src='/assets/lost.png' alt='' style={{ width: '30%' }} />
+            <h2 style={{ marginBottom: '2vh' }}>esta página no existe</h2>
             <Link to="/" className="startButton">Volver a Inicio</Link>
         </div>
     )
