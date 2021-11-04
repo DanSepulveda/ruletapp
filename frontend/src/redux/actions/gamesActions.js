@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const host = 'http://localhost:4000'
+const host = 'https://ruletapp-dansep.herokuapp.com'
 
 const gamesActions = {
   getGames: () => {
