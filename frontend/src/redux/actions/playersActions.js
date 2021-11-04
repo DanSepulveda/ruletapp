@@ -32,13 +32,17 @@ const playersActions = {
             return response
         }
     },
-    editPlayer: (id, newData) => {
+    editPlayer: (id, newData, type) => {
         return async (dispatch) => {
             let response = await axios.put(`${host}/api/user/${id}`, newData)
             if (!response.data.success) {
                 throw new Error(response.data.error);
             }
-            dispatch({ type: "EDIT_PLAYER", payload: { id, newData, user: response.data.response } })
+            if (type) {
+                dispatch({ type: "CHANGE_DATA", payload: { id, user: response.data.response } })
+            } else {
+                dispatch({ type: "EDIT_PLAYER", payload: { id, newData, user: response.data.response } })
+            }
             return response
         }
     },

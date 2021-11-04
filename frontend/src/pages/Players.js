@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { message } from '../components/Message'
 import NewPlayer from '../components/NewPlayer'
 import PlayerCard from '../components/PlayerCard'
 import { MdAddCircleOutline } from 'react-icons/md';

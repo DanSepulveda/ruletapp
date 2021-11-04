@@ -37,6 +37,19 @@ const playersReducer = (
                     ? [...state.chosenPlayers, action.payload.user]
                     : state.chosenPlayers.filter(player => player._id !== action.payload.id)
             };
+        case "CHANGE_DATA":
+            return {
+                ...state,
+                players: state.players.map(player => {
+                    let result
+                    if (player._id === action.payload.id) {
+                        result = action.payload.user
+                    } else {
+                        result = player
+                    }
+                    return result
+                })
+            };
         default:
             return state;
     }

@@ -1,5 +1,4 @@
 import Swal from 'sweetalert2'
-import axios from 'axios'
 import { MdDelete, MdModeEditOutline, MdCheckCircleOutline, MdCheckCircle } from 'react-icons/md';
 import { useState } from 'react'
 import { message } from './Message';

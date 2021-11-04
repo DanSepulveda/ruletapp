@@ -4,7 +4,7 @@ import { message } from './Message'
 import { connect } from 'react-redux'
 import playersActions from '../redux/actions/playersActions'
 
-const NewPlayer = ({ setModal, createPlayer, editMode, playerData }) => {
+const NewPlayer = ({ setModal, createPlayer, editMode, playerData, editPlayer }) => {
     const [newPlayer, setNewPlayer] = useState({})
 
     const pictures = ["avatar1", "avatar2", "avatar3", "avatar4", "avatar5", "avatar6"]
@@ -37,8 +37,21 @@ const NewPlayer = ({ setModal, createPlayer, editMode, playerData }) => {
         }
     }
 
-    const editUser = () => {
-        alert('hola')
+    const editUser = async () => {
+        if (!Object.keys(newPlayer).length) {
+            message('info', 'No tienes cambios para guardar')
+        } else {
+            try {
+                let response = await editPlayer(playerData._id, newPlayer, 'form')
+                if (response.data.success) {
+                    message('success', 'Cambios guardados.')
+                } else {
+                    message('error', response.data.error)
+                }
+            } catch (error) {
+                message('error', error.message)
+            }
+        }
     }
 
     return (
@@ -52,7 +65,7 @@ const NewPlayer = ({ setModal, createPlayer, editMode, playerData }) => {
                 <label htmlFor="username">Nombre de Usuario</label>
                 <input id="username" name="username" onChange={inputHandler} defaultValue={editMode && playerData.username} />
                 <label htmlFor="cash">{editMode ? 'Dinero Actual' : 'Dinero Inicial'}</label>
-                <input id="cash" name="cash" disabled={editMode ? false : true} defaultValue={editMode ? playerData.cash : formatter.format(10000)} />
+                <input id="cash" name="cash" disabled={editMode ? false : true} defaultValue={editMode ? playerData.cash : formatter.format(10000)} onChange={inputHandler} />
                 <div className="startButton" onClick={editMode ? () => editUser() : () => addUser()}>{editMode ? 'Guardar cambios' : 'Crear Usuario'}</div>
             </div>
         </div>
@@ -60,7 +73,8 @@ const NewPlayer = ({ setModal, createPlayer, editMode, playerData }) => {
 }
 
 const mapDispatchToProps = {
-    createPlayer: playersActions.createPlayer
+    createPlayer: playersActions.createPlayer,
+    editPlayer: playersActions.editPlayer
 }
 
 export default connect(null, mapDispatchToProps)(NewPlayer)
