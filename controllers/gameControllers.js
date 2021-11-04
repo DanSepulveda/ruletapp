@@ -1,4 +1,5 @@
 const Game = require('../models/Game')
+const Player = require('../models/Player')
 
 const gameControllers = {
     addGame: async (req, res) => {
@@ -10,7 +11,16 @@ const gameControllers = {
         try {
             await newGame.save()
             let populatedGame = await Game.findOne({ _id: newGame._id }).populate({ path: 'players.playerId', model: 'player' })
-            res.json({ success: true, response: populatedGame })
+            const updateUser = async (player) => {
+                let changes = player.newCash === 0 ? { cash: player.newCash, active: false } : { cash: player.newCash }
+                await Player.findOneAndUpdate(
+                    { _id: player.playerId },
+                    { ...changes }
+                )
+            }
+            players.map(player => updateUser(player))
+            let updatedPlayers = await Player.find()
+            res.json({ success: true, response: { game: populatedGame, players: updatedPlayers } })
         } catch (error) {
             res.json({ success: false, error: error.message })
         }

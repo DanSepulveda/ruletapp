@@ -98,6 +98,12 @@ h2.results {
   color: black;
 }
 
+div.tableHeader {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+}
+
 .tableResult {
   margin-top: 2vh;
   width: 90%;
@@ -109,6 +115,18 @@ h2.results {
   background-color: #444;
   color: white;
   padding: 0.3em;
+}
+
+.tableResult td {
+  padding: 0.2em;
+}
+
+tr.looserRow {
+  background-color: rgba(255, 0, 0, 0.5);
+}
+
+tr.winnerRow {
+  background-color: rgba(0, 128, 0, 0.5);
 }
 
 /* PLAYERS PAGE */

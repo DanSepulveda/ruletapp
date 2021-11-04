@@ -41,7 +41,7 @@ const Home = ({ games, newGameReq, players, createNewGame, getWeather, chosenPla
     const bet = (winnerColor) => {
         let players = []
         chosenPlayers.map(user => {
-            let betCash = user.cash >= 1000 ? conservativeBet ? randomNumber(3, 7) : randomNumber(8, 15) : 100
+            let betCash = user.cash > 1000 ? conservativeBet ? randomNumber(3, 7) : randomNumber(8, 15) : 100
             betCash = Math.round(betCash * user.cash / 100)
             let betColor = getColor()
             let winner = betColor === winnerColor ? true : false
@@ -105,7 +105,7 @@ const Home = ({ games, newGameReq, players, createNewGame, getWeather, chosenPla
         <main className="mainContainer">
             <Link to='/jugadores' className="startButton"><span>Ver jugadores</span></Link>
             <h2 className="results">Resultados</h2>
-            {games.map(game => <ResultTable key={game._id} game={game} />)}
+            {[...games].reverse().map((game, index) => <ResultTable key={game._id} game={game} length={games.length} index={index} />)}
         </main>
     )
 }

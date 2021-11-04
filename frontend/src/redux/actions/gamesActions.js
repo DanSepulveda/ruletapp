@@ -23,7 +23,8 @@ const gamesActions = {
       if (!response.data.success) {
         throw new Error("Ocurrió un problema. Intente más tarde.");
       }
-      dispatch({ type: "CREATE_GAME", payload: response.data.response })
+      dispatch({ type: "CREATE_GAME", payload: response.data.response.game })
+      dispatch({ type: "GET_PLAYERS", payload: response.data.response.players })
       return response
     }
   },

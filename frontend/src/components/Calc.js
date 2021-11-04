@@ -14,3 +14,8 @@ export const getColor = () => {
     }
     return chosenColor
 }
+
+export const formatter = new Intl.NumberFormat('es-CL', {
+    style: 'currency',
+    currency: 'CLP',
+})
