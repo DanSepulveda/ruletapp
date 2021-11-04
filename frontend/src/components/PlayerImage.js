@@ -5,8 +5,6 @@ const PlayerImage = ({ picture, player, setNewPlayer, editMode, user }) => {
             image: `/assets/${picture}.png`
         })
     }
-    console.log(user)
-
     // const nameClass = player.image?.includes(picture) ? "picture selected" : "picture"
 
     let nameClass

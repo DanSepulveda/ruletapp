@@ -22,6 +22,8 @@ const Home = ({ games, newGameReq, players, createNewGame, getWeather, chosenPla
                 let afterTomorrowTemp = (response.data.DailyForecasts[3].Temperature.Maximum.Value - 32) / 1.8
                 if (tomorrowTemp > 20 && afterTomorrowTemp > 20) {
                     setConservativeBet(true)
+                } else {
+                    setConservativeBet(false)
                 }
             } else {
                 throw new Error('Problemas para obtener el clima. Intente más tarde.')
@@ -36,15 +38,36 @@ const Home = ({ games, newGameReq, players, createNewGame, getWeather, chosenPla
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const bet = (user, winnerColor) => {
-        let betCash = user.cash >= 1000 ? conservativeBet ? randomNumber(3, 7) : randomNumber(8, 15) : 100
-        betCash = Math.round(betCash * user.cash / 100)
-        let betColor = getColor()
-        let data = { playerId: user._id, bet: betCash, winner: betColor === winnerColor ? true : false }
+    const bet = (winnerColor) => {
+        let players = []
+        chosenPlayers.map(user => {
+            let betCash = user.cash >= 1000 ? conservativeBet ? randomNumber(3, 7) : randomNumber(8, 15) : 100
+            betCash = Math.round(betCash * user.cash / 100)
+            let betColor = getColor()
+            let winner = betColor === winnerColor ? true : false
+            let lostOrProfit
+            if (winnerColor === "Verde" && winner) {
+                lostOrProfit = betCash * 15
+            } else if (winner) {
+                lostOrProfit = betCash * 2
+            } else {
+                lostOrProfit = -1 * betCash
+            }
+            let data = {
+                playerId: user._id,
+                betColor,
+                previousCash: user.cash,
+                bet: betCash,
+                winner,
+                lostOrProfit,
+                newCash: user.cash + lostOrProfit
+            }
+            // let data = { playerId: user._id, bet: betCash, winner: betColor === winnerColor ? true : false }
+            players.push(data)
+        })
         setNewGame({
             winnerColor,
-            players: []
-            // players: [...newGame.players, data]
+            players
         })
     }
 
@@ -52,7 +75,8 @@ const Home = ({ games, newGameReq, players, createNewGame, getWeather, chosenPla
         setNewGame({ players: [], winnerColor: '' })
         fetchWeather()
         let chosenColor = getColor()
-        chosenPlayers.map(player => bet(player, chosenColor))
+        bet(chosenColor)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [chosenPlayers, cleanGame])
 
     const createGame = async () => {
@@ -67,8 +91,6 @@ const Home = ({ games, newGameReq, players, createNewGame, getWeather, chosenPla
             message('error', error.message)
         }
     }
-
-    console.log(newGame)
 
     useEffect(() => {
         if (start) {
