@@ -12,11 +12,6 @@ const playersActions = {
             dispatch({ type: "GET_PLAYERS", payload: response.data.response });
         };
     },
-    getOnePlayer: (userId) => {
-        return (dispatch) => {
-            dispatch({ type: "GET_PLAYER", payload: userId })
-        }
-    },
     createPlayer: (newPlayer) => {
         return async (dispatch) => {
             let response = await axios.post(`${host}/api/users`, newPlayer)

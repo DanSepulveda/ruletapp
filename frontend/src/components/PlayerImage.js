@@ -1,12 +1,20 @@
-const PlayerImage = ({ picture, player, setNewPlayer }) => {
+const PlayerImage = ({ picture, player, setNewPlayer, editMode, user }) => {
     const handler = () => {
         setNewPlayer({
             ...player,
             image: `/assets/${picture}.png`
         })
     }
+    console.log(user)
 
-    const nameClass = player.image?.includes(picture) ? "picture selected" : "picture"
+    // const nameClass = player.image?.includes(picture) ? "picture selected" : "picture"
+
+    let nameClass
+    if ((editMode && user?.image.includes(picture)) || player?.image?.includes(picture)) {
+        nameClass = "picture selected"
+    } else {
+        nameClass = "picture"
+    }
 
     return (
         <div onClick={handler} className={nameClass} style={{ backgroundImage: `url('/assets/${picture}.png')` }}></div>

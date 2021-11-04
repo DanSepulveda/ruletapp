@@ -4,7 +4,7 @@ import { message } from './Message'
 import { connect } from 'react-redux'
 import playersActions from '../redux/actions/playersActions'
 
-const NewPlayer = ({ setModal, createPlayer }) => {
+const NewPlayer = ({ setModal, createPlayer, editMode, playerData }) => {
     const [newPlayer, setNewPlayer] = useState({})
 
     const pictures = ["avatar1", "avatar2", "avatar3", "avatar4", "avatar5", "avatar6"]
@@ -37,19 +37,23 @@ const NewPlayer = ({ setModal, createPlayer }) => {
         }
     }
 
+    const editUser = () => {
+        alert('hola')
+    }
+
     return (
         <div className="newPlayer">
             <div className="modal">
                 <img className="closeIcon" src="/assets/close.png" alt="Close Icon" onClick={() => setModal(false)} />
                 <h2>Seleccione un avatar</h2>
                 <div className="picturesContainer">
-                    {pictures.map(picture => <PlayerImage key={picture} picture={picture} player={newPlayer} setNewPlayer={setNewPlayer} />)}
+                    {pictures.map(picture => <PlayerImage key={picture} picture={picture} player={newPlayer} setNewPlayer={setNewPlayer} editMode user={playerData} />)}
                 </div>
                 <label htmlFor="username">Nombre de Usuario</label>
-                <input id="username" name="username" onChange={inputHandler} />
-                <label htmlFor="cash">Dinero Inicial</label>
-                <input id="cash" name="cash" disabled defaultValue={formatter.format(10000)} />
-                <div className="startButton" onClick={addUser}>Guardar</div>
+                <input id="username" name="username" onChange={inputHandler} defaultValue={editMode && playerData.username} />
+                <label htmlFor="cash">{editMode ? 'Dinero Actual' : 'Dinero Inicial'}</label>
+                <input id="cash" name="cash" disabled={editMode ? false : true} defaultValue={editMode ? playerData.cash : formatter.format(10000)} />
+                <div className="startButton" onClick={editMode ? () => editUser() : () => addUser()}>{editMode ? 'Guardar cambios' : 'Crear Usuario'}</div>
             </div>
         </div>
     )

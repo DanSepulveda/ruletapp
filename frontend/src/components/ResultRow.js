@@ -1,14 +1,4 @@
-import { useState, useEffect } from 'react'
-import { connect } from 'react-redux'
-import playersActions from '../redux/actions/playersActions'
-
-const ResultRow = ({ user, getOnePlayer, chosenPlayer, color }) => {
-    const [player, setPlayer] = useState({})
-
-    useEffect(() => {
-        getOnePlayer(user.playerId)
-    }, [])
-
+const ResultRow = ({ user, color }) => {
     return (
         <tr>
             <td>{user.playerId.username}</td>
@@ -26,14 +16,5 @@ const ResultRow = ({ user, getOnePlayer, chosenPlayer, color }) => {
     )
 }
 
-const mapStateToProps = state => {
-    return {
-        chosenPlayer: state.players.chosenPlayer
-    }
-}
 
-const mapDispatchToProps = {
-    getOnePlayer: playersActions.getOnePlayer
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ResultRow)
+export default ResultRow

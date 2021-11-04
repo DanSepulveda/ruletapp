@@ -5,9 +5,10 @@ import { useState } from 'react'
 import { message } from './Message';
 import { connect } from 'react-redux';
 import playersActions from '../redux/actions/playersActions';
+import NewPlayer from './NewPlayer';
 
 const PlayerCard = ({ player, deletePlayer, editPlayer }) => {
-    const [selected, setSelected] = useState(false)
+    const [modal, setModal] = useState(false)
 
     const formatter = new Intl.NumberFormat('es-CL', {
         style: 'currency',
@@ -66,9 +67,10 @@ const PlayerCard = ({ player, deletePlayer, editPlayer }) => {
             <h3>Dinero</h3>
             <h4>{formatter.format(player.cash)}</h4>
             <div className="icons">
-                <MdModeEditOutline className="editIcon" />
+                <MdModeEditOutline className="editIcon" onClick={() => setModal(true)} />
                 <MdDelete className="deleteIcon" onClick={confirmation} />
             </div>
+            {modal && <NewPlayer setModal={setModal} editMode playerData={player} />}
         </div>
     )
 }

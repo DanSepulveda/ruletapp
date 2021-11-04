@@ -1,5 +1,5 @@
 const playersReducer = (
-    state = { players: [], chosenPlayers: [], chosenPlayer: {} },
+    state = { players: [], chosenPlayers: [] },
     action
 ) => {
     switch (action.type) {
@@ -8,11 +8,6 @@ const playersReducer = (
                 ...state,
                 players: action.payload,
                 chosenPlayers: action.payload.filter(player => player.active),
-            };
-        case "GET_PLAYER":
-            return {
-                ...state,
-                chosenPlayer: state.players.filter(player => player._id === action.payload)[0],
             };
         case "CREATE_PLAYER":
             return {
@@ -24,6 +19,7 @@ const playersReducer = (
             return {
                 ...state,
                 players: state.players.filter(player => player._id !== action.payload),
+                chosenPlayers: state.chosenPlayers.filter(player => player._id !== action.payload)
             };
         case "EDIT_PLAYER":
             return {

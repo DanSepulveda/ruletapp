@@ -40,17 +40,12 @@ const Home = ({ games, newGameReq, players, createNewGame, getWeather, chosenPla
         let betCash = user.cash >= 1000 ? conservativeBet ? randomNumber(3, 7) : randomNumber(8, 15) : 100
         betCash = Math.round(betCash * user.cash / 100)
         let betColor = getColor()
-        if (betColor === winnerColor) {
-            setNewGame({
-                winnerColor,
-                players: [...newGame.players, { playerId: user._id, bet: betCash, winner: true }]
-            })
-        } else {
-            setNewGame({
-                winnerColor,
-                players: [...newGame.players, { playerId: user._id, bet: betCash, winner: false }]
-            })
-        }
+        let data = { playerId: user._id, bet: betCash, winner: betColor === winnerColor ? true : false }
+        setNewGame({
+            winnerColor,
+            players: []
+            // players: [...newGame.players, data]
+        })
     }
 
     useEffect(() => {
