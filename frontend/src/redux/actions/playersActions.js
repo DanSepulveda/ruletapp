@@ -46,6 +46,16 @@ const playersActions = {
             return response
         }
     },
+    addCash: () => {
+        return async (dispatch) => {
+            let response = await axios.put(`${host}/api/users`)
+            if (!response.data.success) {
+                throw new Error(response.data.error)
+            }
+            dispatch({ type: "GET_PLAYERS", payload: response.data.response })
+            return response
+        }
+    }
 
 }
 

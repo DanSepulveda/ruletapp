@@ -5,14 +5,10 @@ import { message } from './Message';
 import { connect } from 'react-redux';
 import playersActions from '../redux/actions/playersActions';
 import NewPlayer from './NewPlayer';
+import { formatter } from './Calc';
 
 const PlayerCard = ({ player, deletePlayer, editPlayer }) => {
     const [modal, setModal] = useState(false)
-
-    const formatter = new Intl.NumberFormat('es-CL', {
-        style: 'currency',
-        currency: 'CLP',
-    })
 
     const deleteUser = async () => {
         try {
@@ -45,6 +41,11 @@ const PlayerCard = ({ player, deletePlayer, editPlayer }) => {
     }
 
     const editUser = (action) => {
+        if (player.cash === 0) return Swal.fire(
+            'No se puede realizar esta acción.',
+            'El usuario debe tener un saldo mayor a $0 para poder jugar.',
+            'warning'
+        )
         if (action === "remove") {
             editPlayer(player._id, { active: false })
         } else {

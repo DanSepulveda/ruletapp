@@ -5,8 +5,12 @@ import { message } from "../components/Message"
 import { connect } from "react-redux"
 import gamesActions from "../redux/actions/gamesActions"
 import { randomNumber, getColor } from "../components/Calc"
+import { MdPerson } from 'react-icons/md'
+import { IoMdMoon } from 'react-icons/io'
+import playersActions from "../redux/actions/playersActions"
+import Swal from "sweetalert2"
 
-const Home = ({ games, newGameReq, players, createNewGame, getWeather, chosenPlayers, cleanGame }) => {
+const Home = ({ games, newGameReq, createNewGame, getWeather, chosenPlayers, cleanGame, addCash }) => {
     const [start, setStart] = useState(false)
     const [conservativeBet, setConservativeBet] = useState(false)
     const [newGame, setNewGame] = useState({
@@ -22,6 +26,8 @@ const Home = ({ games, newGameReq, players, createNewGame, getWeather, chosenPla
                 let afterTomorrowTemp = (response.data.DailyForecasts[3].Temperature.Maximum.Value - 32) / 1.8
                 if (tomorrowTemp > 20 && afterTomorrowTemp > 20) {
                     setConservativeBet(true)
+                } else {
+                    setConservativeBet(false)
                 }
             } else {
                 throw new Error('Problemas para obtener el clima. Intente más tarde.')
@@ -33,18 +39,40 @@ const Home = ({ games, newGameReq, players, createNewGame, getWeather, chosenPla
 
     useEffect(() => {
         document.title = "RuletApp - Inicio"
+        window.scrollTo(0, 0)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const bet = (user, winnerColor) => {
-        let betCash = user.cash >= 1000 ? conservativeBet ? randomNumber(3, 7) : randomNumber(8, 15) : 100
-        betCash = Math.round(betCash * user.cash / 100)
-        let betColor = getColor()
-        let data = { playerId: user._id, bet: betCash, winner: betColor === winnerColor ? true : false }
+    const bet = (winnerColor) => {
+        let players = []
+        chosenPlayers.map(user => {
+            let betCash = user.cash > 1000 ? conservativeBet ? randomNumber(3, 7) : randomNumber(8, 15) : 100
+            betCash = Math.round(betCash * user.cash / 100)
+            let betColor = getColor()
+            let winner = betColor === winnerColor ? true : false
+            let lostOrProfit
+            if (winnerColor === "Verde" && winner) {
+                lostOrProfit = betCash * 15
+            } else if (winner) {
+                lostOrProfit = betCash * 2
+            } else {
+                lostOrProfit = -1 * betCash
+            }
+            let data = {
+                playerId: user._id,
+                betColor,
+                previousCash: user.cash,
+                bet: betCash,
+                winner,
+                lostOrProfit,
+                newCash: user.cash + lostOrProfit
+            }
+            players.push(data)
+            return true
+        })
         setNewGame({
             winnerColor,
-            players: []
-            // players: [...newGame.players, data]
+            players
         })
     }
 
@@ -52,7 +80,8 @@ const Home = ({ games, newGameReq, players, createNewGame, getWeather, chosenPla
         setNewGame({ players: [], winnerColor: '' })
         fetchWeather()
         let chosenColor = getColor()
-        chosenPlayers.map(player => bet(player, chosenColor))
+        bet(chosenColor)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [chosenPlayers, cleanGame])
 
     const createGame = async () => {
@@ -68,22 +97,55 @@ const Home = ({ games, newGameReq, players, createNewGame, getWeather, chosenPla
         }
     }
 
-    console.log(newGame)
-
     useEffect(() => {
         if (start) {
-            // createGame()
+            createGame()
         } else {
             setStart(true)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [newGameReq])
 
+    const confirmation = () => {
+        Swal.fire({
+            title: '¿Desea finalizar el día?',
+            text: "Todos los jugadores recibirán $10.000",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const updateUsers = async () => {
+                    try {
+                        let response = await addCash()
+                        let messageToShow
+                        if (response.data.success) {
+                            messageToShow = ['Completado', 'Todos los jugadores recibieron $10.000', 'success']
+                        } else {
+                            messageToShow = ['Ocurrió un problema', 'Intente más tarde', 'error']
+                        }
+                        Swal.fire(messageToShow[0], messageToShow[1], messageToShow[2])
+                    } catch (error) {
+                        Swal.fire('Ocurrió un problema', 'Intente más tarde', 'error')
+                    }
+                }
+                updateUsers()
+            }
+        })
+
+    }
+
     return (
         <main className="mainContainer">
-            <Link to='/jugadores' className="startButton"><span>Ver jugadores</span></Link>
-            <h2 className="results">Resultados</h2>
-            {games.map(game => <ResultTable key={game._id} game={game} />)}
+            <div className="buttonSection">
+                <Link to='/jugadores' className="startButton"><span className="buttonContent"><MdPerson /> Ver jugadores</span></Link>
+                <span className="buttonContent startButton" onClick={confirmation}><IoMdMoon /> Finalizar Día</span>
+            </div>
+            <h1 className="results">Resultados</h1>
+            {[...games].reverse().map((game, index) => <ResultTable key={game._id} game={game} length={games.length} index={index} />)}
         </main>
     )
 }
@@ -94,13 +156,14 @@ const mapStateToProps = state => {
         newGameReq: state.games.newGameReq,
         players: state.players.players,
         chosenPlayers: state.players.chosenPlayers,
-        cleanGame: state.games.cleanGame
+        cleanGame: state.games.cleanGame,
     }
 }
 
 const mapDispatchToProps = {
     createNewGame: gamesActions.createNewGame,
-    getWeather: gamesActions.getWeather
+    getWeather: gamesActions.getWeather,
+    addCash: playersActions.addCash
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)

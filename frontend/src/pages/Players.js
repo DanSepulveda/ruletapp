@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import NewPlayer from '../components/NewPlayer'
 import PlayerCard from '../components/PlayerCard'
-import { MdAddCircleOutline } from 'react-icons/md';
+import { MdAddCircleOutline, MdHome } from 'react-icons/md';
 import { connect } from 'react-redux'
 
 const Players = ({ players, chosenPlayers }) => {
@@ -10,12 +10,12 @@ const Players = ({ players, chosenPlayers }) => {
 
     useEffect(() => {
         document.title = "RuletApp - Jugadores"
+        window.scrollTo(0, 0)
     }, [])
-
-    // const nameClass = !chosenPlayers.length ? "startButton disabled" : "startButton"
 
     return (
         <section className="playersSection">
+            <Link to='/' className="startButton"><span className="buttonContent"><MdHome /> Inicio</span></Link>
             <h1>Seleccionar jugadores ({chosenPlayers.length})</h1>
             <div className="playersContainer">
                 <div className="card">
@@ -24,7 +24,6 @@ const Players = ({ players, chosenPlayers }) => {
                 {[...players].reverse().map(player => <PlayerCard key={player._id} player={player} />)}
                 {modal && <NewPlayer setModal={setModal} />}
             </div>
-            <Link to='/' className="startButton"><span>Inicio</span></Link>
         </section>
     )
 }

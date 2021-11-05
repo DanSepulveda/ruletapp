@@ -9,6 +9,7 @@ const router = express.Router()
 router.route('/users')
     .post(playerControllers.addNewPlayer)
     .get(playerControllers.getUsers)
+    .put(playerControllers.addCash)
 
 router.route('/user/:id')
     .delete(playerControllers.deleteUser)
