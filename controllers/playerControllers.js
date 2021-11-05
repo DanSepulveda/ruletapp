@@ -45,6 +45,29 @@ const playerControllers = {
         } catch (error) {
             res.json({ success: false, error: error.message })
         }
+    },
+    addCash: async (req, res) => {
+        try {
+            let players = await Player.find()
+            let updatedPlayers = []
+            const updateCash = async (player) => {
+                let newCash = player.cash + 10000
+                let changes = player.cash === 0 ? { cash: newCash, active: true } : { cash: newCash }
+                let updatedPlayer = await Player.findOneAndUpdate(
+                    { _id: player._id },
+                    { ...changes },
+                    { new: true }
+                )
+                return updatedPlayer
+            }
+            for (const player of players) {
+                const singlePlayer = await updateCash(player)
+                updatedPlayers.push(singlePlayer)
+            }
+            res.json({ success: true, response: updatedPlayers });
+        } catch (error) {
+            res.json({ success: false, error: error.message });
+        }
     }
 }
 

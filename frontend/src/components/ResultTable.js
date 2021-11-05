@@ -3,6 +3,7 @@ import ResultRow from "./ResultRow"
 const ResultTable = ({ game, length, index }) => {
     return (
         <div className="gameResultContainer">
+            {index === 0 && <h2>Última Ronda</h2>}
             <div className="tableHeader">
                 <h2>Color Ganador: <span className={`${game.winnerColor.toLowerCase()}`}>{game.winnerColor}</span></h2>
                 <h2>Juego N° {length - index}</h2>

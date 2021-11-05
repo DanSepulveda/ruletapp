@@ -50,9 +50,6 @@ const playersReducer = (
                     return result
                 })
             };
-        case "PRUEBA":
-            console.log('prueba funcionando')
-            return state
         default:
             return state;
     }

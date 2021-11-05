@@ -3,16 +3,12 @@ import PlayerImage from './PlayerImage'
 import { message } from './Message'
 import { connect } from 'react-redux'
 import playersActions from '../redux/actions/playersActions'
+import { formatter } from './Calc'
 
 const NewPlayer = ({ setModal, createPlayer, editMode, playerData, editPlayer }) => {
     const [newPlayer, setNewPlayer] = useState({})
 
     const pictures = ["avatar1", "avatar2", "avatar3", "avatar4", "avatar5", "avatar6"]
-
-    const formatter = new Intl.NumberFormat('es-CL', {
-        style: 'currency',
-        currency: 'CLP',
-    })
 
     const inputHandler = (e) => {
         setNewPlayer({
