@@ -3,12 +3,12 @@ import gamesActions from '../redux/actions/gamesActions'
 import { connect } from 'react-redux'
 
 const Temp = ({ newGameReq }) => {
-    const [time, setTime] = useState(20)
+    const [time, setTime] = useState(180)
     let formattedTime = new Date(time * 1000).toISOString().substr(14, 5)
 
     setTimeout(() => {
         if (time === 0) {
-            setTime(20)
+            setTime(180)
         } else {
             setTime(time - 1)
         }
