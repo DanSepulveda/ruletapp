@@ -19,3 +19,10 @@ export const formatter = new Intl.NumberFormat('es-CL', {
     style: 'currency',
     currency: 'CLP',
 })
+
+export const percentPerColor = (games, color) => {
+    let qty = games.filter(game => game.winnerColor === color).length
+    let percentage = (qty * 100) / games.length
+    percentage = percentage.toFixed(2)
+    return percentage
+}

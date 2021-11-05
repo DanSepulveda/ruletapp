@@ -4,7 +4,7 @@ import ResultTable from "../components/ResultTable"
 import { message } from "../components/Message"
 import { connect } from "react-redux"
 import gamesActions from "../redux/actions/gamesActions"
-import { randomNumber, getColor } from "../components/Calc"
+import { randomNumber, getColor, percentPerColor } from "../components/Calc"
 import { MdPerson } from 'react-icons/md'
 import { IoMdMoon } from 'react-icons/io'
 import playersActions from "../redux/actions/playersActions"
@@ -143,6 +143,11 @@ const Home = ({ games, newGameReq, createNewGame, getWeather, chosenPlayers, cle
             <div className="buttonSection">
                 <Link to='/jugadores' className="startButton"><span className="buttonContent"><MdPerson /> Ver jugadores</span></Link>
                 <span className="buttonContent startButton" onClick={confirmation}><IoMdMoon /> Finalizar Día</span>
+            </div>
+            <div className="resumeContainer">
+                <h3>Porcentaje de Verde: {percentPerColor(games, 'Verde')}%</h3>
+                <h3>Porcentaje de Negro: {percentPerColor(games, 'Negro')}%</h3>
+                <h3>Porcentaje de Rojo: {percentPerColor(games, 'Rojo')}%</h3>
             </div>
             <h1 className="results">Resultados</h1>
             {[...games].reverse().map((game, index) => <ResultTable key={game._id} game={game} length={games.length} index={index} />)}
