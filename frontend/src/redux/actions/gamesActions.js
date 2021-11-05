@@ -30,7 +30,7 @@ const gamesActions = {
   },
   getWeather: () => {
     return async () => {
-      let response = await axios.get(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/60449?apikey=14A2YVwlmMm7UGT4emqoLMAVtejUAvzZ&details=false`)
+      let response = await axios.get(`https://dataservice.accuweather.com/forecasts/v1/daily/5day/60449?apikey=14A2YVwlmMm7UGT4emqoLMAVtejUAvzZ&details=false`)
       return response
     }
   },
